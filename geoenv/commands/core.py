@@ -77,7 +77,7 @@ def get_docker_base_cmd():
     if is_container_running(GEOENV_CONTAINER_NAME):
         return GEOENV_DOCKER_EXEC
 
-    ports = " ".join([f"-p {port}:{port}" for port in EXPOSED_PORTS])
+    ports = " ".join([f"-p {port}:{port}" for port in set(EXPOSED_PORTS)])
     return GEOENV_DOCKER_RUN.format(ports=ports)
 
 
@@ -96,18 +96,18 @@ def remove_network():
     return f"docker network rm {GEOENV_NETWORK}"
 
 
-def _setup():
+def setup():
     create_network()
 
 
-def _tear_down():
+def tear_down():
     remove_network()
 
 
-def main():
-    args = main_parser.parse_args()
-    if hasattr(args, "handler"):
-        _setup()
-        args.handler(args)
-        return
-    main_parser.print_help()
+# def main():
+#     args = main_parser.parse_args()
+#     if hasattr(args, "handler"):
+#         _setup()
+#         args.handler(args)
+#         return
+#     main_parser.print_help()
