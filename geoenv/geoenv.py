@@ -10,8 +10,3 @@ def main():
         args.handler(args)
         return
     core.main_parser.print_help()
-
-
-# if __name__ == "__main__":
-#     from commands import core
-#     core.main()
