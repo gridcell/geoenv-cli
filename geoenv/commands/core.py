@@ -102,12 +102,3 @@ def setup():
 
 def tear_down():
     remove_network()
-
-
-# def main():
-#     args = main_parser.parse_args()
-#     if hasattr(args, "handler"):
-#         _setup()
-#         args.handler(args)
-#         return
-#     main_parser.print_help()

@@ -1,4 +1,3 @@
-import os
 import subprocess
 import uuid
 
@@ -7,12 +6,6 @@ from .core import EXPOSED_PORTS, interactive, sub_parsers
 EXPOSED_PORTS.append(8001)
 
 
-def _open_browser(key):
-    os.system(f"python -m webbrowser http://localhost:8001/lab?token={key}")
-    print("test")
-
-
-@interactive
 def handler(parser_args, *args, **kwargs):
     jl_key = ""
     if parser_args.no_browser is False:
