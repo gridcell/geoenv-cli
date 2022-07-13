@@ -11,7 +11,7 @@ def handler(parser_args, *args, **kwargs):
         if parser_args.stop:
             return f"docker kill {PG_CONTAINER_NAME}"
         return
-    return f"docker run --rm -d --network {GEOENV_NETWORK} --name '{PG_CONTAINER_NAME}' -e POSTGRES_USER={PG_USER} -e POSTGRES_PASSWORD={PG_PASSWORD} postgis/postgis"
+    return f"docker run --rm -d -p 5432:5432 --network {GEOENV_NETWORK} --name '{PG_CONTAINER_NAME}' -e POSTGRES_USER={PG_USER} -e POSTGRES_PASSWORD={PG_PASSWORD} kartoza/postgis"
 
 
 postgres_parser = sub_parsers.add_parser(
