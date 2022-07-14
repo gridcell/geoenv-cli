@@ -6,8 +6,8 @@ GEOENV_NETWORK = "geoenv-network"
 GEOENV_CONTAINER_NAME = "geoenv-container"
 GEOENV_DOCKER_EXEC = f"docker exec -w /app -it {GEOENV_CONTAINER_NAME}"
 GEOENV_DOCKER_RUN = (
-    f"docker run --network {GEOENV_NETWORK} --name='{GEOENV_CONTAINER_NAME}'"
-    f"{{ports}} -w /app --rm -v `pwd`:/app -it gridcell/geoenv"
+    f"docker run --network {GEOENV_NETWORK} --name='{GEOENV_CONTAINER_NAME}' "
+    f"{{ports}} -w /app --rm -v `pwd`:/app -it gridcell/geoenv "
 )
 
 _exposed_ports = []
