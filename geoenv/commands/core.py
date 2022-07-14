@@ -5,12 +5,22 @@ import subprocess
 GEOENV_NETWORK = "geoenv-network"
 GEOENV_CONTAINER_NAME = "geoenv-container"
 GEOENV_DOCKER_EXEC = f"docker exec -w /app -it {GEOENV_CONTAINER_NAME}"
-GEOENV_DOCKER_RUN = f"docker run --network {GEOENV_NETWORK} --name='{GEOENV_CONTAINER_NAME}' {{ports}} -w /app --rm -v `pwd`:/app -it gridcell/geoenv"
+GEOENV_DOCKER_RUN = (
+    f"docker run --network {GEOENV_NETWORK} --name='{GEOENV_CONTAINER_NAME}'"
+    f"{{ports}} -w /app --rm -v `pwd`:/app -it gridcell/geoenv"
+)
 
-EXPOSED_PORTS = []
+_exposed_ports = []
 
 main_parser = argparse.ArgumentParser(prog="geoenv")
 sub_parsers = main_parser.add_subparsers(dest="command", required=True)
+
+
+def register_port(port: int):
+    if port in _exposed_ports:
+        raise ValueError(f"Port {port} already used")
+
+    _exposed_ports.append(port)
 
 
 def process(cmd, *args):
@@ -77,7 +87,7 @@ def get_docker_base_cmd():
     if is_container_running(GEOENV_CONTAINER_NAME):
         return GEOENV_DOCKER_EXEC
 
-    ports = " ".join([f"-p {port}:{port}" for port in set(EXPOSED_PORTS)])
+    ports = " ".join([f"-p {port}:{port}" for port in _exposed_ports])
     return GEOENV_DOCKER_RUN.format(ports=ports)
 
 
