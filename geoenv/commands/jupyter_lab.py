@@ -1,10 +1,19 @@
-import subprocess
 import uuid
 
-from .core import interactive, register_port, sub_parsers
-
+from .core import interactive, ping, register_port, run, sub_parsers, threaded
 
 register_port(8001)
+
+
+@threaded
+@run
+def open_in_browser(url: str):
+    if ping(
+        url,
+        timeout_message=f"Not able to automatically open url in browser [{url}]"
+    ):
+        return f"python -m webbrowser {url}"
+    return None
 
 
 def handler(parser_args, *args, **kwargs):
@@ -12,10 +21,8 @@ def handler(parser_args, *args, **kwargs):
     if parser_args.no_browser is False:
         key = uuid.uuid4()
         jl_key = f"--NotebookApp.token='{key}'"
-        subprocess.Popen(
-            [f"sleep 3;python -m webbrowser http://localhost:8001/lab?token={key}"],
-            shell=True,
-        )
+        url = f"http://localhost:8001/lab?token={key}"
+        open_in_browser(url)
 
     interactive(
         lambda: f"jupyter lab {jl_key} --app_dir=/app/ --port=8001 --ip=0.0.0.0 --allow-root"
