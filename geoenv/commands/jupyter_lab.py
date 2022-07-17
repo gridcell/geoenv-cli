@@ -25,7 +25,7 @@ def handler(parser_args, *args, **kwargs):
         open_in_browser(url)
 
     interactive(
-        lambda: f"python -m 'jupyterlab' {jl_key} --port=8001 --ip=0.0.0.0"
+        lambda: f"python -m 'jupyterlab' {jl_key} --allow-root --port=8001 --ip=0.0.0.0"
     )()
 
 
