@@ -8,6 +8,7 @@ import time
 import urllib.request
 from datetime import datetime
 
+GEOENV_DOCKER_IMAGE = "gridcell/geoenv"
 GEOENV_NETWORK = "geoenv-network"
 GEOENV_CONTAINER_NAME = "geoenv-container"
 GEOENV_DOCKER_EXEC = f"docker exec -w /app -it {GEOENV_CONTAINER_NAME}"
