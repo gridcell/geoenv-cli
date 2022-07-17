@@ -2,7 +2,7 @@ import json
 import os
 from argparse import RawDescriptionHelpFormatter
 
-from .core import GEOENV_NETWORK, is_container_running, register_port, run, sub_parsers
+from .core import GEOENV_NETWORK, is_container_running, run, sub_parsers
 
 PG_CONTAINER_NAME = "geoenv-postgres-container"
 PG_USER = "postgres"
@@ -15,10 +15,6 @@ PGADMIN_PASSWORD = PG_PASSWORD
 PGADMIN_PORT = 5433
 
 HOST = "host.docker.internal"
-
-
-register_port(PG_PORT)
-register_port(PGADMIN_PORT)
 
 
 def register_server_config():
