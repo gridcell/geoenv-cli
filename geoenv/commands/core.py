@@ -3,6 +3,7 @@ import contextlib
 import logging
 import os
 import subprocess
+import sys
 import threading
 import time
 import urllib.request
@@ -11,7 +12,7 @@ from datetime import datetime
 GEOENV_DOCKER_IMAGE = "gridcell/geoenv"
 GEOENV_NETWORK = "geoenv-network"
 GEOENV_CONTAINER_NAME = "geoenv-container"
-GEOENV_DOCKER_EXEC = f"docker exec -w /app -it {GEOENV_CONTAINER_NAME}"
+GEOENV_DOCKER_EXEC = f"docker exec -u root -w /app -it {GEOENV_CONTAINER_NAME}"
 GEOENV_DOCKER_RUN = (
     f"docker run -u root --network {GEOENV_NETWORK} --name='{GEOENV_CONTAINER_NAME}' "
     f"{{ports}} -w /app --rm -v `pwd`:/app -it gridcell/geoenv "
@@ -19,7 +20,15 @@ GEOENV_DOCKER_RUN = (
 
 _exposed_ports = []
 
-main_parser = argparse.ArgumentParser(prog="geoenv")
+
+class GeoEnvParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write(f"error: {message}\n")
+        self.print_help()
+        sys.exit(2)
+
+
+main_parser = GeoEnvParser(prog="geoenv")
 sub_parsers = main_parser.add_subparsers(dest="command", required=True)
 
 

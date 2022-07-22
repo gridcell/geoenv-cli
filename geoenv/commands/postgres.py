@@ -100,6 +100,7 @@ postgres_parser = sub_parsers.add_parser(
     PGAdmin Password: {PGADMIN_PASSWORD}
     """,
     formatter_class=RawDescriptionHelpFormatter,
+    help="Start postgresql server and link to geoenv"
 )
 postgres_parser.add_argument(
     "--stop", action="store_true", help="Stop postgres docker container."
