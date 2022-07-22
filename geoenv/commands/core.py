@@ -3,6 +3,7 @@ import contextlib
 import logging
 import os
 import subprocess
+import sys
 import threading
 import time
 import urllib.request
@@ -19,7 +20,15 @@ GEOENV_DOCKER_RUN = (
 
 _exposed_ports = []
 
-main_parser = argparse.ArgumentParser(prog="geoenv")
+
+class GeoEnvParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write(f"error: {message}\n")
+        self.print_help()
+        sys.exit(2)
+
+
+main_parser = GeoEnvParser(prog="geoenv")
 sub_parsers = main_parser.add_subparsers(dest="command", required=True)
 
 

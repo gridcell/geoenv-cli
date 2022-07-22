@@ -1,0 +1,7 @@
+Changes
+=======
+
+0.1.6 ()
+------------------
+
+- Added prettier formatting to parser thanks to rich and https://github.com/hamdanal/rich-argparse
