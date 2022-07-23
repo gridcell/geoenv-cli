@@ -1,19 +1,9 @@
 import uuid
 
-from .core import interactive, ping, register_port, run, sub_parsers, threaded
+from .core import interactive, open_in_browser, register_port, sub_parsers
 
-register_port(8001)
-
-
-@threaded
-@run
-def open_in_browser(url: str):
-    if ping(
-        url,
-        timeout_message=f"Not able to automatically open url in browser [{url}]"
-    ):
-        return f"python -m webbrowser {url}"
-    return None
+JL_PORT = 8001
+register_port(JL_PORT)
 
 
 def handler(parser_args, *args, **kwargs):
@@ -21,11 +11,11 @@ def handler(parser_args, *args, **kwargs):
     if parser_args.no_browser is False:
         key = uuid.uuid4()
         jl_key = f"--NotebookApp.token='{key}'"
-        url = f"http://localhost:8001/lab?token={key}"
+        url = f"http://localhost:{JL_PORT}/lab?token={key}"
         open_in_browser(url)
 
     interactive(
-        lambda: f"python -m 'jupyterlab' {jl_key} --allow-root --port=8001 --ip=0.0.0.0"
+        lambda: f"python -m 'jupyterlab' {jl_key} --allow-root --port={JL_PORT} --ip=0.0.0.0"
     )()
 
 

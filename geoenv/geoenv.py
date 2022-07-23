@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import argparse
-
 from .commands import core
 from .rich_argparse import RichHelpFormatter
 

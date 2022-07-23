@@ -62,6 +62,8 @@ def process(cmd, *args):
 def interactive(func):
     def inner(*args, **kwargs):
         command = func(*args, **kwargs)
+        if command is None:
+            return
         base_cmd = get_docker_base_cmd()
         os.system(f"{base_cmd} {command}")
 
@@ -98,6 +100,17 @@ def ping(url: str, timeout: int = 30, timeout_message: str = ""):
             return False
 
         time.sleep(1)
+
+
+@threaded
+@run
+def open_in_browser(url: str):
+    if ping(
+        url,
+        timeout_message=f"Not able to automatically open url in browser [{url}]"
+    ):
+        return f"python -m webbrowser {url}"
+    return None
 
 
 def is_container_running(container_name):
